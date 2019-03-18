@@ -8,6 +8,10 @@ public class Retangulo {
 		this.largura = largura;
 		this.altura = altura;
 	}
+	public Retangulo() {
+		this.largura = 1;
+		this.altura = 1;
+	}
 	
 	public double getLargura() {
 		return largura;
