@@ -25,4 +25,12 @@ public class Retangulo {
 	public void setAltura(double altura) {
 		this.altura = altura;
 	}
+	
+	public double calculaArea() {
+		return this.altura*this.largura;
+	}
+	
+	public double calculaPerimetro() {
+		return 2*this.altura + 2*this.largura;
+	}
 }
