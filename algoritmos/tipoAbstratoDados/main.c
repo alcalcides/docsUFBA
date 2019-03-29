@@ -3,7 +3,6 @@
 #include <math.h>
 #include "ponto.h"
 #include "poly.h"
-#include "functionsPoly.h"
 
 int main(int argc, char const *argv[]){
 	int numPontos;
