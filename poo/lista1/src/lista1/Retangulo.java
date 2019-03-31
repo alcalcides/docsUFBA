@@ -33,4 +33,11 @@ public class Retangulo {
 	public double calculaPerimetro() {
 		return 2*this.altura + 2*this.largura;
 	}
+//	public static void main(String[] args) {
+//		Retangulo bege = new Retangulo();
+//		System.out.println("Largura " + bege.largura);
+//		System.out.println("Altura " + bege.altura);
+//		System.out.println("Perimetro " + bege.calculaPerimetro());
+//		System.out.println("Area " + bege.calculaArea());
+//	}
 }
