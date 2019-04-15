@@ -36,7 +36,7 @@ public class Aluno {
 		System.out.println(std1.nota);
 		Aluno std2 = new Aluno("Cido");
 		System.out.println(std2.nome);
-		System.out.println(std2.nota);
+		System.out.println(std2.nota == 0);
 		
 	}
 
