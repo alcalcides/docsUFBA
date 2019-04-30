@@ -1,6 +1,6 @@
 /*
 Implementação de lista encadeada simples 
-sem head
+SEM head
 */
 
 #include <stdlib.h>
@@ -10,8 +10,7 @@ typedef struct list List;
 List* newListVazia();
 
 struct elto {
-    int id;
-    int numServ;
+    int content;
     Elto* next;
 };
 
@@ -28,11 +27,11 @@ Elto* delElto(Elto* ant);
 A função newElto recebe os valores que compõem um nó e
 cria um nó com esses valores e retorna um ponteiro para o nó criado
 */
-Elto* newElto(int id, int numServ){
+Elto* newElto(int content){
     Elto* node = (Elto*)malloc(1*sizeof(Elto));
     if(node){
-        node->id = id;
-        node->numServ = numServ;
+        node->content = content;
+        node->next = NULL;
     }
     return node;
 }
