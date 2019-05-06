@@ -1,14 +1,10 @@
 package br.ufba.mata55.lista3.exercicio3;
 
 public class Filme {
-	private String titulo;
-	protected int preco;
-	protected int prazo;
+	private String titulo; 
 	
 	public Filme(String titulo) {
 		this.titulo = titulo;
-		this.preco = 3;
-		this.prazo = 2;
 	}
 	
 	public String getTitulo() {
@@ -18,20 +14,14 @@ public class Filme {
 		this.titulo = titulo;
 	}
 	public int getPreco() {
-		return preco;
-	}
-	public void setPreco(int preco) {
-		this.preco = preco;
+		return 3;
 	}
 	public int getPrazo() {
-		return prazo;
+		return 2;
 	}
-	public void setPrazo(int prazo) {
-		this.prazo = prazo;
-	}
-
+	@Override
 	public String toString() {
-		return titulo + ";" + preco + ";" + prazo;
+		return titulo + ";" + getPreco() + ";" + getPrazo();
 	}
 		
 }

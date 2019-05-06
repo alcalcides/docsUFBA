@@ -30,7 +30,7 @@ public class CarrinhoDeCompras {
 	}
 	public void imprimeRecibo(){
 		for (Filme filme : filmes){
-			  System.out.println(filme.toString());
+			  System.out.println(filme);
 		}
 	}
 	public static void main(String[] args) {
