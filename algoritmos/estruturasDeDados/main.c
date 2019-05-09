@@ -2,25 +2,25 @@
 #include "listaEncadeadaSimples.h"
 
 int main(){
-	Elto *aluguel, *passagem;
+	Elto *aluguel, *passagem, *alimentacao;
 	List *despesas;
 
 	aluguel = newElto(350);
-	displayElto(aluguel);
 	passagem = newElto(50);
-	displayElto(passagem);
+	alimentacao = newElto(38);
+
 	
 	despesas = newList();
 	
 	insertEltoTopLista(despesas, passagem);
 	insertElto(despesas, passagem, aluguel);
+	insertElto(despesas, aluguel, alimentacao);
 	displayList(despesas);
-	removerTopo(despesas);
+	esvaziarList(despesas);
 	displayList(despesas);
+		
+	displayElto(lookFor(despesas, 50));
 
-
-
-	
 	despesas = delList(despesas);
 	delElto(aluguel);
 	delElto(passagem);

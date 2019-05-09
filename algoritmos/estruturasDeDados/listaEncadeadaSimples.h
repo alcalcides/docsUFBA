@@ -28,10 +28,12 @@ bool isEmptyList(List *lista);
 bool insertEltoTopLista(List *lista, Elto *pioneiro);
 bool insertElto(List *lista, Elto* anterior, Elto* calouro);
 void displayList(List *lista);
+bool esvaziarList(List *lista);
 bool remover(List *lista, Elto *antAlvo);
 bool removerTopo(List *lista);
 List* delList (List *lista);
 Elto* seek(List *lista, int pos);
+Elto* lookFor(List *lista, int value);
 
 /*
 A função newElto recebe os valores que compõem um nó e
@@ -48,11 +50,17 @@ Elto* newElto(int content){
 
 /*
 Exibe os campos de um elemento
+Se o elemento não existir, exibe mensagem específica
 */
 void displayElto(Elto *elto){
-    printf("Alocado em: %p\n", elto);
-    printf("Conteudo: %d\n", elto->content);
-    printf("Proximo elemento: %p\n\n", elto->next);
+    if(elto){
+        printf("Alocado em: %p\n", elto);
+        printf("Conteudo: %d\n", elto->content);
+        printf("Proximo elemento: %p\n\n", elto->next);
+    }
+    else{
+        printf("Elemento nulo\n");
+    }
 }
 
 /*
@@ -134,6 +142,20 @@ void displayList(List *lista){
 }
 
 /*
+Recebe um ponteiro para uma lista e 
+exclui todos os seus elementos.
+Retorna true se houver sucesso
+*/
+bool esvaziarList(List *lista){
+    bool esvaziou = false;
+    while(!isEmptyList(lista)){
+        removerTopo(lista);
+    }
+    esvaziou = lista->numEltos == 0 ? true : false;
+    return esvaziou;
+}
+
+/*
 Recebe um ponteiro para uma lista com pelo menos dois elementos
 e um ponteiro para o elemento anterior ao elemento alvo, 
 remove o elemento alvo e retorna true se bem sucedido.
@@ -159,7 +181,7 @@ retorna true se bem sucedido.
 */
 bool removerTopo(List *lista){
     bool removeu = false;
-    if(lista->numEltos >= 1){
+    if(!isEmptyList(lista)){
         Elto *temp = lista->firstElto->next;
         delElto(lista->firstElto);
         lista->firstElto = temp;
@@ -201,4 +223,25 @@ Elto* seek(List *lista, int pos){
         alvo = alvo->next;
     }
     return alvo;
+}
+
+/*
+Recebe um ponteiro para uma lista e um valor
+a ser procurado na lista. 
+Retorna NULL caso não contenha um nó com o valor fornecido
+ou o ponteiro para o nó anterior ao nó encontrado.
+*/
+Elto* lookFor(List *lista, int value){
+    Elto *temp = lista->firstElto;
+    if(!isEmptyList(lista)){
+        while(temp->content != value && temp->next){
+            temp = temp->next;
+        }
+        if(temp->content != value)
+            temp = NULL;
+    }
+    else{
+        temp = NULL;
+    }
+    return temp;
 }
