@@ -11,19 +11,21 @@ int main(){
 
 	
 	despesas = newList();
-	
-	insertEltoTopLista(despesas, passagem);
+	insertEltoTopList(despesas, passagem);
 	insertElto(despesas, passagem, aluguel);
 	insertElto(despesas, aluguel, alimentacao);
-	displayList(despesas);
-	esvaziarList(despesas);
-	displayList(despesas);
-		
-	displayElto(lookFor(despesas, 50));
+	if(belong(despesas, 38))
+		displayList(despesas);
 
+
+
+	printf("%p\n", despesas->firstElto);
 	despesas = delList(despesas);
-	delElto(aluguel);
-	delElto(passagem);
-
+	printf("%p\n", despesas);
+	printf("%p\n", aluguel->next);
+	
+	//delElto(aluguel);
+	//delElto(passagem);
+	//delElto(alimentacao);
 	return 0;    
 }
