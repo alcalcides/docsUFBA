@@ -4,8 +4,21 @@ public class Comida {
 	private int x;
 	private int y;
 	private int tamanho;
+	private Cor cor;
 	private boolean ativo;
 	
+	
+	
+	/**
+	 * 
+	 */
+	public Comida() {
+		super();
+		ativo = true;
+	}
+
+
+
 	public int getX() {
 		return x;
 	}
@@ -38,6 +51,18 @@ public class Comida {
 
 	public void setTamanho(int tamanho) {
 		this.tamanho = tamanho;
+	}
+
+
+
+	public void setCor(Cor cor) {
+		this.cor = cor;
+	}
+
+
+
+	public Cor getCor() {
+		return cor;
 	}
 
 

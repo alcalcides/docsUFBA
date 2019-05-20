@@ -4,6 +4,7 @@ public class Celula {
 	private int x;
 	private int y;
 	private int tamanho;
+	private Cor cor;
 	private boolean ativo;
 	
 	
@@ -40,6 +41,18 @@ public class Celula {
 
 	public void setTamanho(int tamanho) {
 		this.tamanho = tamanho;
+	}
+
+
+
+	public void setCor(Cor cor) {
+		this.cor = cor;
+	}
+
+
+
+	public Cor getCor() {
+		return cor;
 	}
 
 

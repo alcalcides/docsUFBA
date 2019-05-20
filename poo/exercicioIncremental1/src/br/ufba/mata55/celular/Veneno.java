@@ -4,7 +4,16 @@ public class Veneno {
 	private int x;
 	private int y;
 	private int tamanho;
+	private Cor cor;
 	private boolean ativo;
+
+	/**
+	 * 
+	 */
+	public Veneno() {
+		super();
+		ativo = true;
+	}
 	
 	public int getX() {
 		return x;
@@ -38,6 +47,18 @@ public class Veneno {
 
 	public void setTamanho(int tamanho) {
 		this.tamanho = tamanho;
+	}
+
+
+
+	public void setCor(Cor cor) {
+		this.cor = cor;
+	}
+
+
+
+	public Cor getCor() {
+		return cor;
 	}
 
 

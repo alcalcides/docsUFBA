@@ -10,12 +10,10 @@ venenos e inimigos, de acordo com a especificação a seguir.
 
 ●	O terreno é preto, visto de cima, e tem tamanho 500x500
 ●	O terreno contém a célula, comidas e venenos
-●	Célula, comidas e venenos possuem coordenadas x e y, tamanho, cor e uma variável 
-booleana para indicar se estão ativos
+●	Célula, comidas e venenos possuem cor 
 ●	A célula é um círculo branco com diâmetro = tamanho; comidas são quadrados verdes 
 centrados em (x, y), com lado = tamanho; venenos são quadrados verdes centrados em (x, y), 
 com lado = tamanho, e com um círculo azul dentro, de diâmetro = tamanho.
-●	Comidas e venenos possuem, adicionalmente, um atributo "ativo", inicialmente verdadeiro
 ●	A célula é controlada através do mouse
 ●	Ao encostar em uma comida, ela é desativada e a célula cresce de tamanho
 ●	Ao encostar em um veneno, ele é desativado e a célula diminui de tamanho
