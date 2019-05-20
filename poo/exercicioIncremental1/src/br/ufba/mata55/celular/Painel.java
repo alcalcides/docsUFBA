@@ -12,8 +12,8 @@ import javax.swing.event.MouseInputListener;
 public class Painel extends JPanel implements KeyListener, MouseInputListener {
 	private static final long serialVersionUID = 1L;
 
-	public static final int LARGURA = 640;
-	public static final int ALTURA = 480;
+	public static final int LARGURA = 500;
+	public static final int ALTURA = 500;
 
 	private int x = 15;
 	private int y = 15;

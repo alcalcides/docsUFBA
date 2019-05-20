@@ -4,7 +4,6 @@ public class Comida {
 	private int x;
 	private int y;
 	private int tamanho;
-	private Cor cor;
 	private boolean ativo;
 	
 	
