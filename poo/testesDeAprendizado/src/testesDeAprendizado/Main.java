@@ -1,16 +1,16 @@
 package testesDeAprendizado;
 
-import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Main {
+	
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
-		String nome = in.next();
-
-		System.out.println(nome.compareTo("alcides"));
-
-		for (int i = nome.length()-1; i > nome.length()-4; i--) {
-			System.out.println(nome.charAt(i));
-		}
+		   ArrayList<Double> nums = new ArrayList<Double>();
+		   nums.add(5.0);
+		   nums.add(7.0);
+		   nums.add(7.0);
+		   nums.add(4.0);		   
+		   System.out.println(Collections.frequency(nums, 0));
 	}
 }
