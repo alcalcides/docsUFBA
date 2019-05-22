@@ -1,55 +1,92 @@
 package br.ufba.mata55.celular;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Terreno {
-	private int largura;
-	private int altura;
-	private Celula cel;
-	private ArrayList<Comida> comidas = new ArrayList<Comida>();
-	private ArrayList<Veneno> venenos = new ArrayList<Veneno>();
-	
-	public int getLargura() {
-		return largura;
-	}
 
-	public void setLargura(int largura) {
-		this.largura = largura;
-	}
+    private int largura;
+    private int altura;
+    private Celula celula;
+    private ArrayList<Comida> comidas = new ArrayList<Comida>();
+    private ArrayList<Veneno> venenos = new ArrayList<Veneno>();
 
-	public int getAltura() {
-		return altura;
-	}
+    public Terreno(){
+        largura = Painel.LARGURA;
+        altura = Painel.ALTURA;
+        celula = new Celula();
+//        addComida();
+//        addVeneno();
+//        addComida();
+//        addVeneno();
+    }
 
-	public void setAltura(int altura) {
-		this.altura = altura;
-	}
+    public void addComida() {
+        Comida comida = new Comida();
+        comidas.add(comida);        
+    }
+    
+    public void addVeneno() {
+        Veneno veneno = new Veneno();
+        venenos.add(veneno);        
+    }
+    
+    public int getLargura() {
+        return largura;
+    }
 
-	public Celula getCel() {
-		return cel;
-	}
+    public void setLargura(int largura) {
+        this.largura = largura;
+    }
 
-	public void setCel(Celula cel) {
-		this.cel = cel;
-	}
+    public int getAltura() {
+        return altura;
+    }
 
-	public ArrayList<Comida> getComidas() {
-		return comidas;
-	}
+    public void setAltura(int altura) {
+        this.altura = altura;
+    }
 
-	public void setComidas(ArrayList<Comida> comidas) {
-		this.comidas = comidas;
-	}
+    public Celula getCelula() {
+        return celula;
+    }
 
-	public ArrayList<Veneno> getVenenos() {
-		return venenos;
-	}
+    public void setCelula(Celula celula) {
+        this.celula = celula;
+    }
 
-	public void setVenenos(ArrayList<Veneno> venenos) {
-		this.venenos = venenos;
-	}
+    public ArrayList<Comida> getComidas() {
+        return comidas;
+    }
 
-	public void desenha(Graphics g){
+    public void setComidas(ArrayList<Comida> comidas) {
+        this.comidas = comidas;
+    }
 
-	}
+    public ArrayList<Veneno> getVenenos() {
+        return venenos;
+    }
+
+    public void setVenenos(ArrayList<Veneno> venenos) {
+        this.venenos = venenos;
+    }
+
+    public void desenharVenenos(Graphics g) {
+        for(int i = 0 ; i<this.venenos.size(); i++){
+            venenos.get(i).desenha(g);
+        }
+    }
+
+    public void desenharComidas(Graphics g) {
+        for(int i = 0 ; i<this.comidas.size(); i++){
+            comidas.get(i).desenha(g);
+        }
+    }
+
+    public void desenha(Graphics g) {
+        celula.desenha(g);
+        desenharComidas(g);
+        desenharVenenos(g);
+    }
+
 }
