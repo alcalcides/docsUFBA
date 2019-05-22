@@ -37,18 +37,77 @@ public class Painel extends JPanel implements KeyListener, MouseInputListener {
     }
 
     public void atualiza() {
+        verificarItens();
+    }
+
+    public void verificarItens() {
         if (contador < ANO_NOVO) {
             contador++;
+            verificarComilancas();
         } else {
-            for (int i = 0; i < qtdNovasComidas; i++) {
-                terreno.addComida();
-            }
-            for (int i = 0; i < qtdNovosVenenos; i++) {
-                terreno.addVeneno();
-            }
+            carregarNovosItens();
             zerarContadores();
         }
+    }
 
+    public void verificarComilancas() {
+        verificarCrescimento();
+        verificarEncolhimento();
+    }
+
+    public void verificarEncolhimento() {
+        int diminuicao;
+        if (!terreno.getVenenos().isEmpty()) {
+            System.out.println("venenos: " + terreno.getVenenos().size());
+            for (int i = 0; i < terreno.getVenenos().size(); i++) {
+                diminuicao = verificarSeComeuAlgumVeneno(i);
+                if (diminuicao >= 3) {
+                    terreno.getVenenos().remove(i);
+                    terreno.getCelula().setTamanho(terreno.getCelula().getTamanho() - diminuicao);
+                }
+            }
+        } else {
+//            System.out.println("terreno SEM venenos");
+        }
+    }
+    
+    public void verificarCrescimento() {
+        int aumento;
+        if (!terreno.getComidas().isEmpty()) {
+            System.out.println("comidas: " + terreno.getComidas().size());
+            for (int i = 0; i < terreno.getComidas().size(); i++) {
+                aumento = verificarSeComeuAlgumaComida(i);
+                if (aumento >= 3) {
+                    terreno.getComidas().remove(i);
+                    terreno.getCelula().setTamanho(terreno.getCelula().getTamanho() + aumento);
+                }
+            }
+        } else {
+//            System.out.println("terreno SEM comidas");
+        }
+    }
+
+    public int verificarSeComeuAlgumaComida(int i) {
+        return terreno.getComidas().get(i).iteracaoComCelula(
+                terreno.getCelula().getX(),
+                terreno.getCelula().getY(),
+                terreno.getCelula().getTamanho());
+    }
+
+    public int verificarSeComeuAlgumVeneno(int i) {
+        return terreno.getVenenos().get(i).iteracaoComCelula(
+                terreno.getCelula().getX(),
+                terreno.getCelula().getY(),
+                terreno.getCelula().getTamanho());
+    }
+
+    public void carregarNovosItens() {
+        for (int i = 0; i < qtdNovasComidas; i++) {
+            terreno.addComida();
+        }
+        for (int i = 0; i < qtdNovosVenenos; i++) {
+            terreno.addVeneno();
+        }
     }
 
     @Override

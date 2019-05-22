@@ -15,10 +15,6 @@ public class Terreno {
         largura = Painel.LARGURA;
         altura = Painel.ALTURA;
         celula = new Celula();
-//        addComida();
-//        addVeneno();
-//        addComida();
-//        addVeneno();
     }
 
     public void addComida() {

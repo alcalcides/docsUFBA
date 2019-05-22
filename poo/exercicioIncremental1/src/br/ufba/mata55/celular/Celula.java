@@ -11,9 +11,10 @@ public class Celula {
     private boolean ativo;
 
     public Celula() {
-        x = y = 100;
-        tamanho = 30;
-        ativo = false;
+//        this.setX(0);
+//        this.setY(0);
+        this.setTamanho(3);
+        this.setAtivo(true);
     }
 
     public int getX() {
@@ -38,6 +39,9 @@ public class Celula {
 
     public void setTamanho(int tamanho) {
         this.tamanho = tamanho;
+        if(this.tamanho < 3){
+            setAtivo(false);
+        }
     }
 
     public boolean isAtivo() {
@@ -48,10 +52,15 @@ public class Celula {
         this.ativo = ativo;
     }
 
+    /**
+     * celula tem centro em (x,y) e raio = tamanho/2
+     */
     public void desenha(Graphics g) {
-        this.setX(Controle.mouseX);
-        this.setY(Controle.mouseY);
-        g.setColor(Color.WHITE);
-        g.fillOval(x - tamanho/2, y - tamanho/2, tamanho, tamanho);
+        if(isAtivo()){
+            this.setX(Controle.mouseX);
+            this.setY(Controle.mouseY);
+            g.setColor(Color.WHITE);
+            g.fillOval(x - tamanho / 2, y - tamanho / 2, tamanho, tamanho);
+        }
     }
 }
