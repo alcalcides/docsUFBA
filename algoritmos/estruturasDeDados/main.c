@@ -1,31 +1,20 @@
 #include <stdio.h>
-#include "listaEncadeadaSimples.h"
+#include "listaEncHead.h"
 
 int main(){
-	Elto *aluguel, *passagem, *alimentacao;
-	List *despesas;
-
-	aluguel = newElto(350);
-	passagem = newElto(50);
-	alimentacao = newElto(38);
-
+	Cell *head = newCell(-1);
 	
-	despesas = newList();
-	insertEltoTopList(despesas, passagem);
-	insertElto(despesas, passagem, aluguel);
-	insertElto(despesas, aluguel, alimentacao);
-	if(belong(despesas, 38))
-		displayList(despesas);
-
-
-
-	printf("%p\n", despesas->firstElto);
-	despesas = delList(despesas);
-	printf("%p\n", despesas);
-	printf("%p\n", aluguel->next);
+	if(head)
+		showList(head);
 	
-	//delElto(aluguel);
-	//delElto(passagem);
-	//delElto(alimentacao);
+	if(insert(5, head))
+		showList(head);
+	if(insert(6, head))
+		showList(head);
+
+	killCell(head->next->next);
+	killCell(head->next);
+	head = killCell(head);
+
 	return 0;    
 }
