@@ -4,17 +4,18 @@
 int main(){
 	Cell *head = newCell(-1);
 
-	if(head && insert(5, head) && insert(6, head) && insert(10, head)){
-		dumpList(head);
+	if(head && insertValueTop(5, head) && insertValueTop(6, head) && insertValueTop(10, head)){
+		showList(head);
 	}
 
-	delValue(-1, head);
-	dumpList(head);
+	printf("\n");
+	insert(100, 1, head);
+	showList(head);
+	
+	printf("%d\n", whatsPos(-1, head));
+	
 
-	killCell(head->next->next->next);
-	killCell(head->next->next);
-	killCell(head->next);
 	head = killCell(head);
-
+		
 	return 0;    
 }
