@@ -70,16 +70,16 @@ public class Veneno {
     /**
      * calcula a distancia para a celula
      */
-    public int iteracaoComCelula(int xDaCelula, int yDaCelula, int tamanhoDaCelula) {
-        double difX, difY;
+    	public int iteracaoComCelula(Celula celula) {
+    	double difX, difY;
         double dist, mediaDosTamanhos;
         int tamanhoParaDiminuir;
-        difX = x - xDaCelula;
-        difY = y - yDaCelula;
+        difX = x - celula.getX();
+        difY = y - celula.getY();
         difX = Math.pow(difX, 2);
         difY = Math.pow(difY, 2);
         dist = Math.sqrt(difX + difY);
-        mediaDosTamanhos = (tamanhoDaCelula + tamanho) / 2;
+        mediaDosTamanhos = (celula.getTamanho() + tamanho) / 2;
         if (dist < mediaDosTamanhos) {
             tamanhoParaDiminuir = tamanho;
         } else {

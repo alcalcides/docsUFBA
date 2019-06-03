@@ -67,16 +67,16 @@ public class Comida {
     /**
      * calcula a distancia para a celula
      */
-    public int iteracaoComCelula(int xDaCelula, int yDaCelula, int tamanhoDaCelula){
+    public int iteracaoComCelula(Celula celula){
         double difX, difY;
         double dist, mediaDosTamanhos;
         int tamanhoParaAcrescentar;
-        difX = x - xDaCelula;
-        difY = y - yDaCelula;
+        difX = x - celula.getX();
+        difY = y - celula.getY();
         difX = Math.pow(difX, 2);
         difY = Math.pow(difY, 2);
         dist = Math.sqrt(difX + difY);
-        mediaDosTamanhos = (tamanhoDaCelula + tamanho)/2;
+        mediaDosTamanhos = (celula.getTamanho() + tamanho)/2;
         if(dist < mediaDosTamanhos){
             this.setAtivo(false);
             tamanhoParaAcrescentar = tamanho;
