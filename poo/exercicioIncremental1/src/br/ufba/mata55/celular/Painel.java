@@ -60,7 +60,7 @@ public class Painel extends JPanel implements KeyListener, MouseInputListener {
         if (!terreno.getVenenos().isEmpty()) {
             System.out.println("venenos: " + terreno.getVenenos().size());
             for (int i = 0; i < terreno.getVenenos().size(); i++) {
-                diminuicao = verificarSeComeuAlgumVeneno(i);
+                diminuicao = quantidadeVenenoDigerido(i);
                 if (diminuicao >= 3) {
                     terreno.getVenenos().remove(i);
                     terreno.getCelula().setTamanho(terreno.getCelula().getTamanho() - diminuicao);
@@ -76,7 +76,7 @@ public class Painel extends JPanel implements KeyListener, MouseInputListener {
         if (!terreno.getComidas().isEmpty()) {
             System.out.println("comidas: " + terreno.getComidas().size());
             for (int i = 0; i < terreno.getComidas().size(); i++) {
-                aumento = verificarSeComeuAlgumaComida(i);
+                aumento = quantidadeComidaDigerida(i);
                 if (aumento >= 3) {
                     terreno.getComidas().remove(i);
                     terreno.getCelula().setTamanho(terreno.getCelula().getTamanho() + aumento);
@@ -87,14 +87,14 @@ public class Painel extends JPanel implements KeyListener, MouseInputListener {
         }
     }
 
-    public int verificarSeComeuAlgumaComida(int i) {
+    public int quantidadeComidaDigerida(int i) {
         return terreno.getComidas().get(i).iteracaoComCelula(
                 terreno.getCelula().getX(),
                 terreno.getCelula().getY(),
                 terreno.getCelula().getTamanho());
     }
 
-    public int verificarSeComeuAlgumVeneno(int i) {
+    public int quantidadeVenenoDigerido(int i) {
         return terreno.getVenenos().get(i).iteracaoComCelula(
                 terreno.getCelula().getX(),
                 terreno.getCelula().getY(),
