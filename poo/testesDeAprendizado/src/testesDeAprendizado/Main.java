@@ -1,16 +1,15 @@
 package testesDeAprendizado;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 public class Main {
+
+	public static <T> T soma (T a, T b){
+		return a+b;
+	}
 	
 	public static void main(String[] args) {
-		   ArrayList<Double> nums = new ArrayList<Double>();
-		   nums.add(5.0);
-		   nums.add(7.0);
-		   nums.add(7.0);
-		   nums.add(4.0);		   
-		   System.out.println(Collections.frequency(nums, 0));
+		int a, b;
+		a = 5;
+		b = 6;
+		System.out.println(soma(a, b));
 	}
 }
