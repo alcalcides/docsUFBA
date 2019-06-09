@@ -7,11 +7,6 @@ Gabriel de Jesus Silva do Lago
 Rodada 2
 A partir do código que você entregou na rodada 1, realize as alterações indicadas:
 
-Crie uma classe abstrata Entidade, 
-	que generaliza Celula, Comida e Veneno, 
-	contendo os atributos e métodos que são comuns entre as classes. 
-	Faça Celula, Comida e Veneno estender essa classe.
-
 Agora que você está usando herança, você consegue simplificar outras partes do seu código. Faça isso!
 
 Crie uma classe Inimigo, 

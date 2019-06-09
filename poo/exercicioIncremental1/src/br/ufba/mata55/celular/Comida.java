@@ -4,86 +4,55 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
 
-public class Comida {
-    private Random gerador;
-    private int x;
-    private int y;
-    private int tamanho;
-    private boolean ativo;
-    
-    /**
-     *
-     */
-    public Comida() {
-        gerador = new Random();
-        tamanho = gerador.nextInt(18) + 3;
-        x = gerador.nextInt(Painel.LARGURA - tamanho + 1) + tamanho / 2;
-        y = gerador.nextInt(Painel.ALTURA - tamanho + 1) + tamanho / 2;
-        ativo = true;
-    }
+public class Comida extends Entidade {
+	private Random gerador;
 
-    public int getX() {
-        return x;
-    }
+	public Random getGerador() {
+		return gerador;
+	}
 
-    public void setX(int x) {
-        this.x = x;
-    }
+	public void setGerador() {
+		this.gerador = new Random();
+	}
 
-    public int getY() {
-        return y;
-    }
+	public Comida() {
+		setGerador();
+		setTamanho(gerador.nextInt(18) + 3);
+		setX(gerador.nextInt(Painel.LARGURA - getTamanho() + 1) + getTamanho() / 2);
+		setY(gerador.nextInt(Painel.ALTURA - getTamanho() + 1) + getTamanho() / 2);
+		setAtivo(true);
+	}
 
-    public void setY(int y) {
-        this.y = y;
-    }
+	/**
+	 * comida tem centro em (x,y)
+	 */
+	public void desenha(Graphics g) {
+		if (isAtivo()) {
+			g.setColor(Color.GREEN);
+			g.fillRect(getX() - getTamanho() / 2, getY() - getTamanho() / 2, getTamanho(), getTamanho());
+		}
+	}
 
-    public int getTamanho() {
-        return tamanho;
-    }
+	/**
+	 * calcula a distancia para a celula
+	 */
+	public int iteracaoComCelula(Celula celula) {
+		int tamanhoParaAcrescentar;
+		double difX, difY;
+		double dist, mediaDosTamanhos;
+		difX = getX() - celula.getX();
+		difY = getY() - celula.getY();
+		difX = Math.pow(difX, 2);
+		difY = Math.pow(difY, 2);
+		dist = Math.sqrt(difX + difY);
 
-    public void setTamanho(int tamanho) {
-        this.tamanho = tamanho;
-    }
+		mediaDosTamanhos = (celula.getTamanho() + getTamanho()) / 2;
 
-    public boolean isAtivo() {
-        return ativo;
-    }
+		if (dist < mediaDosTamanhos)
+			setAtivo(false);
 
-    public void setAtivo(boolean ativo) {
-        this.ativo = ativo;        
-    }
+		tamanhoParaAcrescentar = !isAtivo() ? getTamanho() : 0;
+		return tamanhoParaAcrescentar;
+	}
 
-    /**
-     * comida tem centro em (x,y)
-     */
-    public void desenha(Graphics g) {
-        if(isAtivo()){
-            g.setColor(Color.GREEN);
-            g.fillRect(x - tamanho / 2, y - tamanho / 2, tamanho, tamanho);
-        }
-    }
-
-    /**
-     * calcula a distancia para a celula
-     */
-    public int iteracaoComCelula(Celula celula){
-        double difX, difY;
-        double dist, mediaDosTamanhos;
-        int tamanhoParaAcrescentar;
-        difX = x - celula.getX();
-        difY = y - celula.getY();
-        difX = Math.pow(difX, 2);
-        difY = Math.pow(difY, 2);
-        dist = Math.sqrt(difX + difY);
-        mediaDosTamanhos = (celula.getTamanho() + tamanho)/2;
-        if(dist < mediaDosTamanhos){
-            this.setAtivo(false);
-            tamanhoParaAcrescentar = tamanho;
-        }
-        else{
-            tamanhoParaAcrescentar = 0;
-        }
-        return tamanhoParaAcrescentar;
-    }
 }
