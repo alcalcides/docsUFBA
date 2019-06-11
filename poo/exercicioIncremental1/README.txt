@@ -7,8 +7,6 @@ Gabriel de Jesus Silva do Lago
 Rodada 2
 A partir do código que você entregou na rodada 1, realize as alterações indicadas:
 
-Agora que você está usando herança, você consegue simplificar outras partes do seu código. Faça isso!
-
 Crie uma classe Inimigo, 
 	que estende de Veneno. 
 	Inimigo é igual a veneno em todos os aspectos, exceto que 
