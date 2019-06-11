@@ -7,14 +7,6 @@ Gabriel de Jesus Silva do Lago
 Rodada 2
 A partir do código que você entregou na rodada 1, realize as alterações indicadas:
 
-Crie uma classe Inimigo, 
-	que estende de Veneno. 
-	Inimigo é igual a veneno em todos os aspectos, exceto que 
-		se movimenta o tempo todo, 
-			ou na horizontal ou na vertical, em um movimento de vai e vem 
-			limitado pelo tamanho do terreno.
-		O que determina a direção do Inimigo é o atributo direcao, do tipo Direcao, onde Direcao é um enum.
-
 Agora a célula do jogador possui poderes especiais. 
 	O jogador escolhe o poder ativo teclando 1, 2 ou 3, e 
 	usa o poder ativo usando a barra de espaço.
