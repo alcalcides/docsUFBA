@@ -17,19 +17,19 @@ public class Inimigo extends Veneno {
 				setSentidoPositivo(false);
 			}
 		}
-		if (direcao == Direcao.HORIZONTAL && !isSentidoPositivo()) {
+		else if (direcao == Direcao.HORIZONTAL && !isSentidoPositivo()) {
 			setX(getX() - passo);
 			if (getX() <= getTamanho() / 2) {
 				setSentidoPositivo(true);
 			}
 		}
-		if (direcao == Direcao.VERTICAL && isSentidoPositivo()) {
+		else if (direcao == Direcao.VERTICAL && isSentidoPositivo()) {
 			setY(getY() + passo);
 			if (getY() >= (Painel.ALTURA - getTamanho() / 2)) {
 				setSentidoPositivo(false);
 			}
 		}
-		if (direcao == Direcao.VERTICAL && !isSentidoPositivo()) {
+		else if (direcao == Direcao.VERTICAL && !isSentidoPositivo()) {
 			setY(getY() - passo);
 			if (getY() <= getTamanho() / 2) {
 				setSentidoPositivo(true);

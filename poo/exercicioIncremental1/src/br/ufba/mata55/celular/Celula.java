@@ -5,9 +5,13 @@ import java.awt.Graphics;
 
 public class Celula extends Entidade {
 
+	private Poder[] poder = { new Poder1(), new Poder2(), new Poder3() };
+	private int poderAtivo;
+
 	public Celula() {
 		setTamanho(3);
 		setAtivo(true);
+		poderAtivo = 1;
 	}
 
 	/**
@@ -21,4 +25,25 @@ public class Celula extends Entidade {
 			g.fillOval(getX() - getTamanho() / 2, getY() - getTamanho() / 2, getTamanho(), getTamanho());
 		}
 	}
+
+	public Poder[] getPoder() {
+		return poder;
+	}
+
+	public void setPoder(Poder[] poder) {
+		this.poder = poder;
+	}
+
+	public int getPoderAtivo() {
+		return poderAtivo;
+	}
+
+	public void setPoderAtivo(int numPoder) {
+		if (numPoder >= 1 && numPoder <= 3) {
+			this.poderAtivo = numPoder;
+		} else {
+			throw new IllegalArgumentException("Poder deve ser 1, 2 ou 3");
+		}
+	}
+
 }

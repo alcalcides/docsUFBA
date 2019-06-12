@@ -26,15 +26,9 @@ public abstract class Comestivel extends Entidade {
 	 */
 	public int iteracaoComCelula(Celula celula) {
 		int tamanhoDoPrato;
-		double difX, difY;
-		double dist, mediaDosTamanhos;
-		difX = getX() - celula.getX();
-		difY = getY() - celula.getY();
-		difX = Math.pow(difX, 2);
-		difY = Math.pow(difY, 2);
-		dist = Math.sqrt(difX + difY);
-
-		mediaDosTamanhos = (celula.getTamanho() + getTamanho()) / 2;
+		double dist;
+		dist = distanciaParaCelula(celula);
+		double mediaDosTamanhos = mediaDosTamanhos(celula);
 
 		if (dist < mediaDosTamanhos)
 			setAtivo(false);
@@ -42,5 +36,24 @@ public abstract class Comestivel extends Entidade {
 		tamanhoDoPrato = !isAtivo() ? getTamanho() : 0;
 
 		return tamanhoDoPrato;
+	}
+
+	public double mediaDosTamanhos(Celula celula) {
+		double mediaDosTamanhos;
+
+		mediaDosTamanhos = (celula.getTamanho() + getTamanho()) / 2;
+
+		return mediaDosTamanhos;
+	}
+
+	public double distanciaParaCelula(Celula celula) {
+		double dist;
+		double difX, difY;
+		difX = getX() - celula.getX();
+		difY = getY() - celula.getY();
+		difX = Math.pow(difX, 2);
+		difY = Math.pow(difY, 2);
+		dist = Math.sqrt(difX + difY);
+		return dist;
 	}
 }
