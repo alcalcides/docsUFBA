@@ -6,7 +6,6 @@ public class Poder2 implements Poder {
 
 	@Override
 	public void acionar(Celula celula, Collection<Entidade> vizinhos) {
-		System.out.println("poder 2 em acao");
 		
 	}
 

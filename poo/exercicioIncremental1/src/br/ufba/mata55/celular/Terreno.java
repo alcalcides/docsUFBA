@@ -10,7 +10,7 @@ public class Terreno {
 	private ArrayList<Comida> comidas = new ArrayList<Comida>();
 	private ArrayList<Veneno> venenos = new ArrayList<Veneno>();
 	private ArrayList<Inimigo> inimigos = new ArrayList<Inimigo>();
-	private Collection<Entidade> vizinhos;
+	private Collection<Entidade> vizinhos = new ArrayList<Entidade>();
 	private int contador;
 	private int qtdNovasComidas;
 	private int qtdNovosVenenos;
@@ -47,7 +47,6 @@ public class Terreno {
 	public void verificarEncolhimento() {
 		int diminuicao;
 		if (!getVenenos().isEmpty()) {
-			// System.out.println("venenos: " + getVenenos().size());
 			for (int i = 0; i < getVenenos().size(); i++) {
 				diminuicao = quantidadeVenenoDigerido(i);
 				if (diminuicao >= 3) {
@@ -57,7 +56,6 @@ public class Terreno {
 			}
 		}
 		if (!getInimigos().isEmpty()) {
-			// System.out.println("inimigos: " + getInimigos().size());
 			for (int i = 0; i < getInimigos().size(); i++) {
 				diminuicao = quantidadeInimigoDigerido(i);
 				if (diminuicao >= 3) {
@@ -71,7 +69,6 @@ public class Terreno {
 	public void verificarCrescimento() {
 		int aumento;
 		if (!getComidas().isEmpty()) {
-			// System.out.println("comidas: " + getComidas().size());
 			for (int i = 0; i < getComidas().size(); i++) {
 				aumento = quantidadeComidaDigerida(i);
 				if (aumento >= 3) {
@@ -114,6 +111,10 @@ public class Terreno {
 	public void addVeneno() {
 		Veneno veneno = new Veneno();
 		venenos.add(veneno);
+	}
+	
+	public void removeVeneno(Veneno veneno) {
+		venenos.remove(veneno);
 	}
 
 	public void addInimigo() {
@@ -171,14 +172,33 @@ public class Terreno {
 
 	public void acionarPoder() {
 		cadastrarVizinhos(comidas, venenos, inimigos);
+		
+		System.out.println("qtd vizinhos: " + vizinhos.size());
 		celula.getPoder()[celula.getPoderAtivo() - 1].acionar(celula, vizinhos);
-		if(vizinhos.size() > 0) {
-			descadastrarVizinhos();
+		System.out.println("qtd vizinhos: " + vizinhos.size());
+		
+		switch (celula.getPoderAtivo()) {
+			case 1:
+				System.out.println("Implemente poder 1");
+				break;
+			case 2:
+				System.out.println("Implemente poder 2");
+				break;
+			case 3:
+				for(Entidade entidade : vizinhos) {
+					if(venenos.contains(entidade)) {
+						venenos.remove(entidade);
+					}
+				}
+				celula.setTamanho(celula.getTamanho() - 3);
+				break;
 		}
+		
+		descadastrarVizinhos();
+
 	}
 
 	private void descadastrarVizinhos() {
-		if(!vizinhos.isEmpty())
 			vizinhos.clear();
 	}
 
@@ -186,19 +206,19 @@ public class Terreno {
 		for (Comida comida : comidas) {
 			if (comida.distanciaParaCelula(celula) <= (comida.mediaDosTamanhos(celula) + 50)) {
 				vizinhos.add(comida);
-				System.out.println("vizinho");
+				System.out.println("comida vizinha");
 			}
 		}
 		for (Veneno veneno : venenos) {
 			if (veneno.distanciaParaCelula(celula) < (veneno.mediaDosTamanhos(celula) + 50)) {
 				vizinhos.add(veneno);
-				System.out.println("vizinho");
+				System.out.println("veneno vizinho");
 			}
 		}
 		for (Inimigo inimigo : inimigos) {
 			if (inimigo.distanciaParaCelula(celula) <= (inimigo.mediaDosTamanhos(celula) + 50)) {
 				vizinhos.add(inimigo);
-				System.out.println("vizinho");
+				System.out.println("inimigo vizinho");
 			}
 		}
 	}

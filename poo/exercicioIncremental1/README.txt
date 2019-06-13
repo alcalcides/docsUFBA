@@ -8,13 +8,11 @@ Rodada 2
 A partir do código que você entregou na rodada 1, realize as alterações indicadas:
 
 Agora a célula do jogador possui poderes especiais. 
-	Todos os poderes fazem alguma coisa com o jogador e/ou com as entidades vizinhas (em um raio de 50 pixels).
 	O poder 1 faz com que todas as entidades vizinhas sejam capturadas pela célula, 
 		resultando na variação do tamanho da célula. 
 		Exemplo: se houver 3 comidas e 2 venenos na vizinhança, 
 			o tamanho da célula vai variar da mesma forma que variaria caso a célula tivesse encostado nessas 5 entidades.
 	O poder 2 faz com que todas as entidades vizinhas aumentem de tamanho e a célula diminua de tamanho em 3 unidades.
-	O poder 3 faz com que todos os venenos vizinhos sejam destruídos e a célula diminua de tamanho em 3 unidades.
 
 A classe Celula deve possuir um método setPoderAtivo(int numPoder), onde 
 	numPoder deve ser 1, 2 ou 3. 

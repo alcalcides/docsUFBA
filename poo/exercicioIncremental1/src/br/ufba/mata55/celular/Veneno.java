@@ -8,7 +8,7 @@ public class Veneno extends Comestivel {
 	 * veneno tem centro em (x,y)
 	 */
 	public void desenha(Graphics g) {
-		if (isAtivo()) {
+		if (this.isAtivo()) {
 			g.setColor(Color.GREEN);
 			g.fillRect(getX() - getTamanho() / 2, getY() - getTamanho() / 2, getTamanho(), getTamanho());
 			g.setColor(Color.BLUE);
