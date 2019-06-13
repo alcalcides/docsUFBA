@@ -38,6 +38,20 @@ public abstract class Comestivel extends Entidade {
 		return tamanhoDoPrato;
 	}
 
+	public int iteracaoComCelula(Celula celula, int plus) {
+		int tamanhoDoPrato;
+		double dist;
+		dist = distanciaParaCelula(celula);
+		double mediaDosTamanhos = mediaDosTamanhos(celula);
+
+		if (dist < (plus + mediaDosTamanhos))
+			setAtivo(false);
+
+		tamanhoDoPrato = !isAtivo() ? getTamanho() : 0;
+
+		return tamanhoDoPrato;
+	}
+	
 	public double mediaDosTamanhos(Celula celula) {
 		double mediaDosTamanhos;
 

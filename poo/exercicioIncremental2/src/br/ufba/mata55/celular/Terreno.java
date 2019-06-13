@@ -44,6 +44,11 @@ public class Terreno {
 		verificarEncolhimento();
 	}
 
+	public void verificarComilancas(int plus) {
+		verificarCrescimento(plus);
+		verificarEncolhimento(plus);
+	}
+
 	public void verificarEncolhimento() {
 		int diminuicao;
 		if (!getVenenos().isEmpty()) {
@@ -66,6 +71,28 @@ public class Terreno {
 		}
 	}
 
+	public void verificarEncolhimento(int plus) {
+		int diminuicao;
+		if (!getVenenos().isEmpty()) {
+			for (int i = 0; i < getVenenos().size(); i++) {
+				diminuicao = quantidadeVenenoDigerido(i, plus);
+				if (diminuicao >= 3) {
+					getVenenos().remove(i);
+					getCelula().setTamanho(getCelula().getTamanho() - diminuicao);
+				}
+			}
+		}
+		if (!getInimigos().isEmpty()) {
+			for (int i = 0; i < getInimigos().size(); i++) {
+				diminuicao = quantidadeInimigoDigerido(i, plus);
+				if (diminuicao >= 3) {
+					getInimigos().remove(i);
+					getCelula().setTamanho(getCelula().getTamanho() - diminuicao);
+				}
+			}
+		}
+	}
+
 	public void verificarCrescimento() {
 		int aumento;
 		if (!getComidas().isEmpty()) {
@@ -79,16 +106,41 @@ public class Terreno {
 		}
 	}
 
+	public void verificarCrescimento(int plus) {
+		int aumento;
+		if (!getComidas().isEmpty()) {
+			for (int i = 0; i < getComidas().size(); i++) {
+				aumento = quantidadeComidaDigerida(i, plus);
+				if (aumento >= 3) {
+					getComidas().remove(i);
+					getCelula().setTamanho(getCelula().getTamanho() + aumento);
+				}
+			}
+		}
+	}
+
 	public int quantidadeComidaDigerida(int i) {
 		return getComidas().get(i).iteracaoComCelula(getCelula());
+	}
+
+	public int quantidadeComidaDigerida(int i, int plus) {
+		return getComidas().get(i).iteracaoComCelula(getCelula(), plus);
 	}
 
 	public int quantidadeVenenoDigerido(int i) {
 		return getVenenos().get(i).iteracaoComCelula(getCelula());
 	}
 
+	public int quantidadeVenenoDigerido(int i, int plus) {
+		return getVenenos().get(i).iteracaoComCelula(getCelula(), plus);
+	}
+
 	public int quantidadeInimigoDigerido(int i) {
 		return getInimigos().get(i).iteracaoComCelula(getCelula());
+	}
+
+	public int quantidadeInimigoDigerido(int i, int plus) {
+		return getInimigos().get(i).iteracaoComCelula(getCelula(), plus);
 	}
 
 	public void carregarNovosItens() {
@@ -112,7 +164,7 @@ public class Terreno {
 		Veneno veneno = new Veneno();
 		venenos.add(veneno);
 	}
-	
+
 	public void removeVeneno(Veneno veneno) {
 		venenos.remove(veneno);
 	}
@@ -172,53 +224,42 @@ public class Terreno {
 
 	public void acionarPoder() {
 		cadastrarVizinhos(comidas, venenos, inimigos);
-		
-		System.out.println("qtd vizinhos: " + vizinhos.size());
+
 		celula.getPoder()[celula.getPoderAtivo() - 1].acionar(celula, vizinhos);
-		System.out.println("qtd vizinhos: " + vizinhos.size());
-		
-		switch (celula.getPoderAtivo()) {
-			case 1:
-				System.out.println("Implemente poder 1");
-				break;
-			case 2:
-				System.out.println("Implemente poder 2");
-				break;
-			case 3:
-				for(Entidade entidade : vizinhos) {
-					if(venenos.contains(entidade)) {
-						venenos.remove(entidade);
-					}
+
+		if (celula.getPoderAtivo() == 3) {
+			for (Entidade entidade : vizinhos) {
+				if (venenos.contains(entidade)) {
+					venenos.remove(entidade);
 				}
-				celula.setTamanho(celula.getTamanho() - 3);
-				break;
+			}
 		}
-		
+		else if(celula.getPoderAtivo() == 1) {
+			verificarComilancas(50);
+		}
+
 		descadastrarVizinhos();
 
 	}
 
 	private void descadastrarVizinhos() {
-			vizinhos.clear();
+		vizinhos.clear();
 	}
 
 	private void cadastrarVizinhos(ArrayList<Comida> comidas, ArrayList<Veneno> venenos, ArrayList<Inimigo> inimigos) {
 		for (Comida comida : comidas) {
 			if (comida.distanciaParaCelula(celula) <= (comida.mediaDosTamanhos(celula) + 50)) {
 				vizinhos.add(comida);
-				System.out.println("comida vizinha");
 			}
 		}
 		for (Veneno veneno : venenos) {
 			if (veneno.distanciaParaCelula(celula) < (veneno.mediaDosTamanhos(celula) + 50)) {
 				vizinhos.add(veneno);
-				System.out.println("veneno vizinho");
 			}
 		}
 		for (Inimigo inimigo : inimigos) {
 			if (inimigo.distanciaParaCelula(celula) <= (inimigo.mediaDosTamanhos(celula) + 50)) {
 				vizinhos.add(inimigo);
-				System.out.println("inimigo vizinho");
 			}
 		}
 	}

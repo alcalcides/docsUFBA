@@ -7,18 +7,17 @@ public class Poder3 implements Poder {
 
 	@Override
 	public void acionar(Celula celula, Collection<Entidade> vizinhos) {
-		System.out.println("poder 3");
 		ArrayList<Entidade> alvo = new ArrayList<>();
 		for (Entidade entidade : vizinhos) {
 			String classe = entidade.getClass().getSimpleName();
-			System.out.println(classe);
-			if(classe.equals("Veneno")) {
-				System.out.println("Capturou");
+			if (classe.equals("Veneno")) {
 				alvo.add(entidade);
+				entidade.setAtivo(false);
 			}
 		}
 		vizinhos.clear();
 		vizinhos.addAll(alvo);
+		celula.setTamanho(celula.getTamanho() - 3);
 	}
 
 }
