@@ -2,13 +2,17 @@
 #include "fila.h"
 
 int main(){
-	Fila* sonhos;
-	sonhos = newVoidFile();
+	Queue* sonhos;
+	sonhos = newVoidQueue();
 	enqueue(2, sonhos);
 	enqueue(30, sonhos);
 	enqueue(454, sonhos);
+	enqueue(678, sonhos);
+	
+	showQueue(sonhos);
+	sonhos = killQueue(sonhos);
+	showQueue(sonhos);
+	
 
-	showFila(sonhos);
-		
 	return 0;    
 }
