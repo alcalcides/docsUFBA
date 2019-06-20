@@ -1,21 +1,14 @@
 #include <stdio.h>
-#include "listaEncHead.h"
+#include "fila.h"
 
 int main(){
-	Cell *head = newCell(-1);
+	Fila* sonhos;
+	sonhos = newVoidFile();
+	enqueue(2, sonhos);
+	enqueue(30, sonhos);
+	enqueue(454, sonhos);
 
-	if(head && insertValueTop(5, head) && insertValueTop(6, head) && insertValueTop(10, head)){
-		showList(head);
-	}
-
-	printf("\n");
-	insert(100, 1, head);
-	showList(head);
-	
-	printf("%d\n", whatsPos(-1, head));
-	
-
-	head = killCell(head);
+	showFila(sonhos);
 		
 	return 0;    
 }

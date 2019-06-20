@@ -33,7 +33,7 @@ iTree* set_new_void_tree(iTree *arvore){
 
 iTree* newNode(){
     iTree *novo;
-    novo = set_novo_void_tree(novo);
+    novo = set_new_void_tree(novo);
     if(novo){
         novo->hight = 0;
     }
@@ -55,7 +55,7 @@ int iTree_height(iTree *r){
     else return r->hight;
 }
 
-int maxH (int h1, int h2){
+int maxH(int h1, int h2){
     int max = h1;
     if(max < h2)
         max = h2;
@@ -66,8 +66,8 @@ iTree* iTree_rotateLeft(iTree* top){
     iTree *ntop = top->right;
     top->right = ntop->left;
     ntop->left = top;
-    top->hight = 1 + maxH(iTree_height(top->left->hight), iTree_height(top->right->hight));
-    ntop->hight = 1 + maxH(iTree_height(ntop->left->hight), iTree_height(ntop->right->hight));
+    top->hight = 1 + maxH(iTree_height(top->left), iTree_height(top->right));
+    ntop->hight = 1 + maxH(iTree_height(ntop->left), iTree_height(ntop->right));
     return ntop;
 }
 
@@ -75,8 +75,8 @@ iTree* iTree_rotateRight(iTree* top){
     iTree *ntop = top->left;
     top->left = ntop->right;
     ntop->right = top;
-    top->hight = 1 + maxH(iTree_height(top->left->hight), iTree_height(top->right->hight));
-    ntop->hight = 1 + maxH(iTree_height(ntop->left->hight), iTree_height(ntop->right->hight));
+    top->hight = 1 + maxH(iTree_height(top->left), iTree_height(top->right));
+    ntop->hight = 1 + maxH(iTree_height(ntop->left), iTree_height(ntop->right));
     return ntop;
 }
 
@@ -130,9 +130,9 @@ iTree* iTree_delete(interval *x, iTree *r){
     }
 }
 
-iTree* iTree_insert (interval *x, iTree *r){
+iTree* iTree_insert(interval *x, iTree *r){
     if(r == NULL){
-        r = newNode(r);
+        r = newNode();
         if(r){
             r->v = *x;
         }
@@ -148,42 +148,73 @@ iTree* iTree_insert (interval *x, iTree *r){
     }
 }
 
+void iTree_display (iTree *r){
+    if(r->hight == 0){
+        printf("[%d, %d]", r->v.a, r->v.b);
+    }
+    else{
+        int i;
+        for (i = 0; i < r->hight; i++) 
+            printf("\t");
+        printf("[%d, %d]", r->v.a, r->v.b);
+        for (i = 0; i < r->hight; i++) 
+            printf("\t");
+        printf("\n");
+        iTree_display(r->left);
+        for (i = 0; i <= r->hight; i++) 
+            printf("\t");
+        iTree_display(r->right);
+    }
+    printf("\n");
+}
+
 int main() {
     int op;
     iTree *arvore = NULL;
     interval *x = NULL;
     arvore = set_new_void_tree(arvore);
-    
 
     do{
         printf("Escolha uma operacao 1-5: ");
         scanf("%d", &op);
         switch (op) {
             case 1:
-                x = (interval*)malloc(1*sizeof(interval));
+                x = (interval*) malloc(1*sizeof(interval));
                 if(x){
                     printf("novo intervalo a = ");
                     scanf("%d", &(x->a));
                     printf("b = ");
                     scanf("%d", &(x->b));
-                    printf("passando valores [%d, %d]\n", x->a, x->b);
                     iTree_insert(x, arvore);
                     free(x); 
                 }
                 else {
                     printf("MEMORY FULL");
                 }
-                break;
-            
+            break;
+            case 2:
+                x = (interval*) malloc(1*sizeof(interval));
+                if(x){
+                    printf("intervalo a ser excluido a = ");
+                    scanf("%d", &(x->a));
+                    printf("b = ");
+                    scanf("%d", &(x->b));
+                    iTree_delete(x, arvore);
+                    free(x);
+                }
+                else {
+                    printf("MEMORY FULL");
+                }
+            break;
+            case 5:
+                iTree_display(arvore);
+            break;
             default:
                 break;
             }
     } while (op > 0 && op < 6);
-
-    dump_node(arvore);
     
+
     free(arvore);
-
-
     return 0;
 }

@@ -1,5 +1,6 @@
 algoritmos/projArvoreDeIntervalos/trabalho-espec.pdf
-algoritmos/*/a.out
+*a.out
+*.vscode/
 algoritmos/*/*.exe
 algoritmos/estruturasDeDados/make*
 #Eclipse Helios JEE

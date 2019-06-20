@@ -3,39 +3,46 @@ Implementação de lista encadeada simples
 Com head
 */
 
+
+#include <stdio.h>
 #include <stdlib.h>
 
-typedef struct cell_t Cell;
-struct cell_t {
-    int content;
+typedef struct cell Cell;
+
+typedef struct {
+    int a, b;
+}interval;
+
+struct cell {
+    interval content;
     Cell *next;
 };
 
 
-Cell* newCell(int content);
+Cell* newCell(interval content);
 void dumpCell(Cell *cell);
 void showCell(Cell *cell);
 Cell* killCell(Cell *cell);
 void dumpList(Cell *head);
 void showList(Cell *head);
-Cell* searchFor(int content, Cell *head);
+Cell* searchFor(interval content, Cell *head);
 int listSize(Cell *head);
-Cell* lookAtPos(int pos, Cell *head);
-int whatsPos(int content, Cell *head);
+Cell* lookAtPos(interval pos, Cell *head);
+int whatsPos(interval content, Cell *head);
 Cell* lastCell(Cell *head);
 Cell* insertCellPos(Cell *mirror, Cell *freshman);
-Cell* insertValuePos(Cell *mirror, int content);
-Cell* insertValueTop(int content, Cell *head);
-Cell* insertValueTail(int content, Cell *head);
-Cell* insert(int content, int pos, Cell *head);
+Cell* insertValuePos(Cell *mirror, interval content);
+Cell* insertValueTop(interval content, Cell *head);
+Cell* insertValueTail(interval content, Cell *head);
+Cell* insert(interval content, interval pos, Cell *head);
 Cell* delCell(Cell *mirror);
-Cell* delValue(int content, Cell *head);
+Cell* delValue(interval content, Cell *head);
 Cell* emptyList(Cell *head);
 Cell* killList(Cell *head);
 
 //Recebe um valor, cria uma célula e, com sucesso,
 //retorna um ponteiro para ela ou NULL no fracasso
-Cell* newCell(int content){
+Cell* newCell(interval content){
     Cell *cell = (Cell*) malloc(1*sizeof(Cell));
     if(cell){
         cell->content = content;
@@ -47,13 +54,13 @@ Cell* newCell(int content){
 //Recebe o ponteiro para uma célula e mostra seus valores armazenados
 void dumpCell(Cell *cell){
     printf("Rented in: %p\n", cell);
-    printf("Content is: %d\n", cell->content);
+    printf("Content is: [%d, %d]\n", cell->content.a, cell->content.b);
     printf("Next is: %p\n", cell->next);
 }
 
 //Recebe o ponteiro para uma célula e mostra seu conteúdo
 void showCell(Cell *cell){
-    printf("%d\n", cell->content);
+    printf("[%d, %d]\n", cell->content.a, cell->content.b);
 }
 
 //Recebe o ponteiro para uma célula e a desaloca
@@ -87,7 +94,7 @@ void showList(Cell *head){
 //procura uma ocorrência do valor nela e
 //retorna o ponteiro para a célula anterior à achada
 //ou NULL caso não haja o valor na lista ou ela esteja vazia
-Cell* searchFor(int content, Cell *head){
+Cell* searchFor(interval content, Cell *head){
     Cell *cursor = head;
     while(cursor->next && cursor->next->content != content){
         cursor = cursor->next;
@@ -149,7 +156,7 @@ Cell* insertCellPos(Cell *mirror, Cell *freshman){
 //Recebe um valor e um ponteiro para a célula precedente(mirror).
 //Cria uma célula para o valor, insere afrente de mirror e
 //retorna o ponteiro a célula inserida ou NULL caso haja fracasso
-Cell* insertValuePos(Cell *mirror, int content){
+Cell* insertValuePos(Cell *mirror, interval content){
     Cell *freshman = newCell(content);
     if(freshman){
         insertCellPos(mirror, freshman);
@@ -160,14 +167,14 @@ Cell* insertValuePos(Cell *mirror, int content){
 //Recebe um valor e uma lista(head),
 //insere nova célula no topo da lista com o valor passado e
 //retorna o ponteiro para a célula criada ou NULL no fracasso
-Cell* insertValueTop(int content, Cell *head){
+Cell* insertValueTop(interval content, Cell *head){
     Cell *freshman = insertValuePos(head, content);
     return freshman;
 }
 
 //Recebe um valor e uma lista, insere nova célula no final da lista e
 //retorna ponteiro para a a célula inserida ou NULL no fracasso.
-Cell* insertValueTail(int content, Cell *head){
+Cell* insertValueTail(interval content, Cell *head){
     Cell *freshman = insertValuePos(lastCell(head), content);
     return freshman;
 }
@@ -175,7 +182,7 @@ Cell* insertValueTail(int content, Cell *head){
 //Recebe um valor(content), uma posição(pos) e uma lista(head).
 //Insere nova célula com o valor passado na posição especificada.
 //Retorna NULL no fracasso ou um ponteiro para a célula inserida
-Cell* insert(int content, int pos, Cell *head){
+Cell* insert(interval content, int pos, Cell *head){
     int i;
     if(pos>0){
         for(i = 0; i < pos-1; i++){
@@ -199,7 +206,7 @@ Cell* delCell(Cell *mirror){
 //Recebe um valor a ser removido de uma lista(head)
 //Retorna o ponteiro para a célula anterior a célula removida
 //ou NULL se a lista é vazia ou não possui o valor em suas células
-Cell* delValue(int content, Cell *head){
+Cell* delValue(inter content, Cell *head){
     Cell *mirror = searchFor(content, head);
     if(mirror){
         delCell(mirror);
