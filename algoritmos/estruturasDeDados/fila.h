@@ -68,7 +68,9 @@ Retorna NULL se a fila estiver vazia */
 Cell* dequeue(Queue *queue){
     if(queue->qtd_nodes > 0){
         queue->qtd_nodes--;
-        return delCell(queue->head)->next;
+        Cell *alvo = lookAtPos(1, queue->head);
+        queue->head->next = alvo->next;
+        return alvo;
     }
     else{
         return NULL;
@@ -87,6 +89,6 @@ Queue* emptyQueue(Queue *queue){
 /*Recebe o ponteiro para uma fila, esvazia e desaloca.
 Retorna NULL a ser atribuído no escopo do cliente */
 Queue* killQueue(Queue *queue){
-    emptyList(queue->head);
+    killList(queue->head);
     free(queue);
 }

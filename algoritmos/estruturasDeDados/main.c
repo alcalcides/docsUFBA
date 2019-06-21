@@ -9,10 +9,13 @@ int main(){
 	enqueue(454, sonhos);
 	enqueue(678, sonhos);
 	
-	showQueue(sonhos);
-	sonhos = killQueue(sonhos);
+
+	showQueue(sonhos);	
+	showCell(dequeue(sonhos));
+	showCell(dequeue(sonhos));
 	showQueue(sonhos);
 	
-
+	sonhos = killQueue(sonhos);
+	
 	return 0;    
 }
