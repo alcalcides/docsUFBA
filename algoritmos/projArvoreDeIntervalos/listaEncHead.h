@@ -1,66 +1,79 @@
-/*
-Implementação de lista encadeada simples 
-Com head
-*/
-
+//Implementação de lista encadeada simples com head
 
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct cell Cell;
 
 typedef struct {
     int a, b;
 }interval;
 
+typedef struct node iTree;
+struct node{
+    interval v;
+    int max;
+    iTree *left, *right;
+    int hight;
+};
+
+typedef struct cell Cell;
 struct cell {
-    interval content;
+    iTree *r;
     Cell *next;
 };
 
 
-Cell* newCell(interval content);
-void dumpCell(Cell *cell);
+Cell* newCell(iTree *r);
+void showContent(iTree *i);
 void showCell(Cell *cell);
+void dumpCell(Cell *cell);
 Cell* killCell(Cell *cell);
-void dumpList(Cell *head);
 void showList(Cell *head);
-Cell* searchFor(interval content, Cell *head);
+void dumpList(Cell *head);
+Cell* searchFor(iTree *r, Cell *head);
 int listSize(Cell *head);
-Cell* lookAtPos(interval pos, Cell *head);
-int whatsPos(interval content, Cell *head);
+Cell* lookAtPos(int pos, Cell *head);
+int whatsPos(iTree *r, Cell *head);
 Cell* lastCell(Cell *head);
 Cell* insertCellPos(Cell *mirror, Cell *freshman);
-Cell* insertValuePos(Cell *mirror, interval content);
-Cell* insertValueTop(interval content, Cell *head);
-Cell* insertValueTail(interval content, Cell *head);
-Cell* insert(interval content, interval pos, Cell *head);
+Cell* insertValuePos(Cell *mirror, iTree *r);
+Cell* insertValueTop(iTree *r, Cell *head);
+Cell* insertValueTail(iTree *r, Cell *head);
+Cell* insert(iTree *r, int pos, Cell *head);
 Cell* delCell(Cell *mirror);
-Cell* delValue(interval content, Cell *head);
+Cell* delValue(iTree *r, Cell *head);
 Cell* emptyList(Cell *head);
 Cell* killList(Cell *head);
 
-//Recebe um valor, cria uma célula e, com sucesso,
+//Recebe um ponteiro para uma árvore, cria uma célula e, com sucesso,
 //retorna um ponteiro para ela ou NULL no fracasso
-Cell* newCell(interval content){
+Cell* newCell(iTree *r){
     Cell *cell = (Cell*) malloc(1*sizeof(Cell));
     if(cell){
-        cell->content = content;
+        cell->r = r;
         cell->next = NULL;
     }
     return cell;
 }
 
-//Recebe o ponteiro para uma célula e mostra seus valores armazenados
-void dumpCell(Cell *cell){
-    printf("Rented in: %p\n", cell);
-    printf("Content is: [%d, %d]\n", cell->content.a, cell->content.b);
-    printf("Next is: %p\n", cell->next);
+//Recebe o ponteiro para um nó da árvore e mostra seu conteúdo
+void showContent(iTree *r){
+    printf("[%d, %d], max = (%d)\n", r->v.a, r->v.b, r->max);
 }
 
 //Recebe o ponteiro para uma célula e mostra seu conteúdo
-void showCell(Cell *cell){
-    printf("[%d, %d]\n", cell->content.a, cell->content.b);
+void showCell(Cell* cell){
+    showContent(cell->r);
+}
+
+//Recebe o ponteiro para uma célula e mostra seus valores armazenados
+void dumpCell(Cell *cell){
+    printf("Living in: %p\n", cell);
+    printf("Hight: %d\n", cell->r->hight);
+    printf("Content is: ");
+    showContent(cell->r);
+    printf("Left son lives in: %p\n", cell->r->left);
+    printf("Right son lives in: %p\n", cell->r->right);
+    printf("Next lives in: %p\n\n", cell->next);
 }
 
 //Recebe o ponteiro para uma célula e a desaloca
@@ -70,67 +83,70 @@ Cell* killCell(Cell *cell){
     return NULL;
 }
 
-//Recebe o ponteiro para uma lista(head) e mostra tudo sobre ela
-void dumpList(Cell *head){
-    while(head){
-        dumpCell(head);
-        head = head->next;
-    }
-    
-}
-
 //Recebe o ponteiro para uma lista(head) e mostra seu conteúdo
 void showList(Cell *head){
     int i = 1;
-    while(head->next){
+    Cell *cursor;
+    while(cursor->next){
         printf("Cell %d\t==>\t", i);
-        showCell(head->next);
-        head = head->next;
+        showCell(cursor->next);
+        cursor = cursor->next;
         i++;
     }
 }
 
-//Recebe um valor e uma lista(head),
-//procura uma ocorrência do valor nela e
-//retorna o ponteiro para a célula anterior à achada
-//ou NULL caso não haja o valor na lista ou ela esteja vazia
-Cell* searchFor(interval content, Cell *head){
+//Recebe o ponteiro para uma lista(head) e mostra tudo sobre ela
+void dumpList(Cell *head){
     Cell *cursor = head;
-    while(cursor->next && cursor->next->content != content){
+    while(cursor){
+        dumpCell(cursor);
         cursor = cursor->next;
     }
+    
+}
+
+//Recebe um ponteiro para um nó da arvare e a lista(head),
+//procura a ocorrência desse ponteiro na lista. Caso exista na fila, 
+//retorna o ponteiro anterior a ele ou NULL no fracasso
+Cell* searchFor(iTree *r, Cell *head){
+    Cell *cursor = head;
+    while(cursor->next && cursor->next->r != r)
+        cursor = cursor->next;
     if(cursor->next == NULL)
         cursor = NULL;
     return cursor;    
 }
 
-//Recebe uma lista(head) e retorna quantos itens há
+//Recebe uma lista(head) e retorna quantos itens há nela
 int listSize(Cell *head){
     int i;
-    for (i = 0; head->next; i++){
-        head = head->next;
+    Cell *cursor = head;
+    for (i = 0; cursor->next; i++){
+        cursor = cursor->next;
     }
     return i;
 }
 
-//Recebe o ponteiro para uma lista(head) e uma posição(pos).
-//Retorna o ponteiro para a célula que ocupa posição pos na lista
+//Recebe uma posição(pos) e o ponteiro para uma lista(head).
+//Retorna o ponteiro para a célula que ocupa a posição pos na lista
 //ou retorna NULL se não houver tal posição.
 Cell* lookAtPos(int pos, Cell *head){
+    Cell *cursor = head;
     for(int i = 0; i < pos; i++ )
-        head = head->next;
-    return head;
+        cursor = cursor->next;
+    return cursor;
 }
 
-//Recebe um valor(content) e um lista(head) e retorna a posição
-//da célula que contém o valor ou -1 se o valor não pertence à lista
-int whatsPos(int content, Cell *head){
+//Recebe o ponteiro para um nó da árvore e uma lista(head).
+//Retorna a posição do nó nessa lista ou -1 se não contiver
+int whatsPos(iTree *r, Cell *head){
     int i = 1;
-    while(head->next && head->next->content != content){
+    Cell *cursor = head;
+    while(cursor->next && cursor->next->r != r){
         i++;
-        head = head->next;
+        cursor = cursor->next;
     }
-    if(head->next == NULL) 
+    if(cursor->next == NULL) 
         i = -1;
     return i;
 }
@@ -139,9 +155,8 @@ int whatsPos(int content, Cell *head){
 //Para lista vazia, retorna ponteiro para a cabeça
 Cell* lastCell(Cell *head){
     Cell *cursor = head;
-    while(cursor->next){
+    while(cursor->next)
         cursor = cursor->next;
-    }
     return cursor;
 }
 
@@ -153,44 +168,47 @@ Cell* insertCellPos(Cell *mirror, Cell *freshman){
     return freshman;
 }
 
-//Recebe um valor e um ponteiro para a célula precedente(mirror).
-//Cria uma célula para o valor, insere afrente de mirror e
-//retorna o ponteiro a célula inserida ou NULL caso haja fracasso
-Cell* insertValuePos(Cell *mirror, interval content){
-    Cell *freshman = newCell(content);
+//Recebe um ponteiro para a célula precedente(mirror) à posição
+//onde se quer criar e inserir nova célula com ponteiro r de um nó.
+//retorna o ponteiro para a célula inserida ou NULL caso haja fracasso
+Cell* insertValuePos(Cell *mirror, iTree *r){
+    Cell *freshman = newCell(r);
     if(freshman){
         insertCellPos(mirror, freshman);
     }
     return freshman;
 }
 
-//Recebe um valor e uma lista(head),
-//insere nova célula no topo da lista com o valor passado e
-//retorna o ponteiro para a célula criada ou NULL no fracasso
-Cell* insertValueTop(interval content, Cell *head){
-    Cell *freshman = insertValuePos(head, content);
+//Recebe o ponteiro para um nó r da árvore e uma lista de nós (head).
+//Insere nova célula no topo da lista com o valor passado.
+//Retorna o ponteiro para a célula criada ou NULL no fracasso
+Cell* insertValueTop(iTree *r, Cell *head){
+    Cell *freshman = insertValuePos(head, r);
     return freshman;
 }
 
-//Recebe um valor e uma lista, insere nova célula no final da lista e
-//retorna ponteiro para a a célula inserida ou NULL no fracasso.
-Cell* insertValueTail(interval content, Cell *head){
-    Cell *freshman = insertValuePos(lastCell(head), content);
+//Recebe um ponteiro para um nó da árvore e uma lista de nós (head).
+//Cria nova célula com o ponteiro passado e insere no final da lista.
+//Retorna ponteiro para a a célula inserida ou NULL no fracasso.
+Cell* insertValueTail(iTree *r, Cell *head){
+    Cell *freshman = insertValuePos(lastCell(head), r);
     return freshman;
 }
 
-//Recebe um valor(content), uma posição(pos) e uma lista(head).
-//Insere nova célula com o valor passado na posição especificada.
-//Retorna NULL no fracasso ou um ponteiro para a célula inserida
-Cell* insert(interval content, int pos, Cell *head){
+//Recebe um ponteiro (r) para um nó da árvore, 
+//uma posição (pos) na lista e a lista (head) de nós.
+//Cria nova célula para r na posição especificada.
+//Retorna o ponteiro para a célula inserida ou NULL no fracasso.
+Cell* insert(iTree *r, int pos, Cell *head){
     int i;
+    Cell *cursor = head;
     if(pos>0){
         for(i = 0; i < pos-1; i++){
-            head = head->next;
+            cursor = cursor->next;
         }
-        head = insertValuePos(head, content);
+        cursor = insertValuePos(cursor, r);
     }
-    return head;
+    return cursor;
 }
 
 //Recebe o ponteiro para a célula anterior à que será excluída
@@ -203,11 +221,11 @@ Cell* delCell(Cell *mirror){
     return mirror;
 }
 
-//Recebe um valor a ser removido de uma lista(head)
+//Recebe o ponteiro r a ser removido da lista(head).
 //Retorna o ponteiro para a célula anterior a célula removida
-//ou NULL se a lista é vazia ou não possui o valor em suas células
-Cell* delValue(inter content, Cell *head){
-    Cell *mirror = searchFor(content, head);
+//ou NULL se a lista é vazia ou se não há ocorrência de r. 
+Cell* delValue(iTree *r, Cell *head){
+    Cell *mirror = searchFor(r, head);
     if(mirror){
         delCell(mirror);
     }
