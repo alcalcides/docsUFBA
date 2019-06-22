@@ -57,7 +57,7 @@ Cell* newCell(iTree *r){
 
 //Recebe o ponteiro para um nó da árvore e mostra seu conteúdo
 void showContent(iTree *r){
-    printf("[%d, %d], max = (%d)\n", r->v.a, r->v.b, r->max);
+    printf("[%d, %d], max = (%d), hight: %d\n", r->v.a, r->v.b, r->max, r->hight);
 }
 
 //Recebe o ponteiro para uma célula e mostra seu conteúdo
@@ -86,7 +86,7 @@ Cell* killCell(Cell *cell){
 //Recebe o ponteiro para uma lista(head) e mostra seu conteúdo
 void showList(Cell *head){
     int i = 1;
-    Cell *cursor;
+    Cell *cursor = head;
     while(cursor->next){
         printf("Cell %d\t==>\t", i);
         showCell(cursor->next);
@@ -191,8 +191,7 @@ Cell* insertValueTop(iTree *r, Cell *head){
 //Cria nova célula com o ponteiro passado e insere no final da lista.
 //Retorna ponteiro para a a célula inserida ou NULL no fracasso.
 Cell* insertValueTail(iTree *r, Cell *head){
-    Cell *freshman = insertValuePos(lastCell(head), r);
-    return freshman;
+    return insertValuePos(lastCell(head), r);
 }
 
 //Recebe um ponteiro (r) para um nó da árvore, 

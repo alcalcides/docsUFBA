@@ -8,16 +8,22 @@ void dump_node(iTree *node){
     printf("subtree right em %p\n", node->right);
 }
 
-iTree* set_new_void_tree(iTree *arvore){
-    arvore = (iTree*)malloc(1*sizeof(iTree));
-    if(arvore){
-        arvore->hight = -1;
-        arvore->left = arvore->right = NULL;
-        arvore->v.a = 0;
-        arvore->v.b = 0;
-        arvore->max = 0;
+iTree* set_new_void_tree(iTree *r){
+    r = (iTree*)malloc(1*sizeof(iTree));
+    if(r){
+        r->hight = -1;
+        r->left = r->right = NULL;
+        r->v.a = 0;
+        r->v.b = 0;
+        r->max = 0;
     }
-    return arvore;
+    return r;
+}
+
+//Esta função retorna 1 se a árvore estiver vazia e 0 caso contrário
+int isEmptyTree(iTree* r){
+    if(r->hight == -1) return 1;
+    else return 0;
 }
 
 iTree* newNode(interval *v){
@@ -76,6 +82,7 @@ iTree* rebalance(iTree* r){
     int rh = iTree_height(r->right);
     int f = lh - rh;
     r->hight = 1 + maxH(lh, rh);
+    
     if(f == 2){
         if(-1 == (iTree_height(r->left->left)-iTree_height(r->left->right)))
             r->left = iTree_rotateLeft(r->left);
@@ -85,6 +92,13 @@ iTree* rebalance(iTree* r){
         if(1 == (iTree_height(r->right->left)-iTree_height(r->right->right)))
             r->right = iTree_rotateLeft(r->right);
         r = iTree_rotateLeft(r);
+    }
+    
+    if(r->left){
+        r->max = maxH(r->max, r->left->max);
+    }
+    if(r->right){
+        r->max = maxH(r->max, r->right->max);
     }
     return r;
 }
@@ -122,7 +136,7 @@ iTree* iTree_delete(interval *x, iTree *r){
 }
 
 iTree* iTree_insert(interval *x, iTree *r){
-    if(r == NULL){
+    if(r == NULL || isEmptyTree(r)){
         r = newNode(x);
         return r;
     }
@@ -135,24 +149,91 @@ iTree* iTree_insert(interval *x, iTree *r){
         if(r->max < x->b) 
             r->max = x->b;
         
-        return rebalance(r);
+        return rebalance(r);    }
+}
+
+void showContentGraphicaly(iTree* r, Queue* nodes){
+    int i;
+    for(i = 0; i < r->hight; i++)
+        printf("\t");
+    // printf("[%d, %d], m=%d, h=%d", r->v.a, r->v.b, r->max, r->hight);
+    printf("[%d, %d]", r->v.a, r->v.b);
+    for(i = 0; i < r->hight; i++)
+        printf("\t");
+    if(isEmptyQueue(nodes) || (r->hight != nodes->head->next->r->hight )){
+        printf("\n");
     }
 }
 
 void iTree_display (iTree *r){
     Queue *nodes;
     nodes = newVoidQueue();
-    iTree *cursor = NULL;
-    if(r && nodes){
+    Cell *cursor = NULL;
+    if(r && !isEmptyTree(r) && nodes){
         enqueue(r, nodes);
         while (!isEmptyQueue(nodes)) {
-            cursor = dequeue(nodes); 
-            showContent(cursor);
-            if(cursor->left)
-                enqueue(cursor->left, nodes);
-            if(cursor->right)
-            enqueue(cursor->right, nodes);    
+            cursor = dequeue(nodes);
+            showContentGraphicaly(cursor->r, nodes);
+            if(cursor->r->right){
+                enqueue(cursor->r->right, nodes);
+            }
+            if(cursor->r->left){
+                enqueue(cursor->r->left, nodes);
+            }
         }        
-        cursor = NULL;        
     }
+    killQueue(nodes);
+
+}
+
+
+interval* iTree_search(interval *v, iTree* r){
+    Queue* fila = (Queue*) malloc(sizeof(Queue));
+    fila = newVoidQueue(); 
+    enqueue(r, fila);
+    while(!isEmptyQueue(fila)){
+        Cell *temp = dequeue(fila);
+        iTree *t = temp->r;
+        if(t->v.a < v->a && t->v.b >= v->a){
+            showContent(t);
+            fila = killQueue(fila);
+            return v;
+        }
+        if(t->v.a == v->a){
+            showContent(t);
+            fila = killQueue(fila);
+            return v;
+        }
+        if(t->v.a > v->a && t->v.a <= v->b){
+            showContent(t);
+            fila = killQueue(fila);
+            return v;
+        }
+        if(t->left){
+            enqueue(t->left, fila);
+        }
+        if(t->right)
+            enqueue(t->right, fila);
+    }
+    fila = killQueue(fila);
+}
+
+
+void iTree_overlap_list(interval *v, iTree* r){
+    Queue* fila = (Queue*) malloc(sizeof(Queue));
+    fila = newVoidQueue(); 
+    enqueue(r, fila);
+    while(!isEmptyQueue(fila)){
+        Cell *temp = dequeue(fila);
+        iTree *t = temp->r;
+        if(t->v.a <= v->b && v->a <= t->v.b){
+            showContent(t);
+        }
+        if(t->left){
+            enqueue(t->left, fila);
+        }
+        if(t->right)
+            enqueue(t->right, fila);
+    }
+    fila = killQueue(fila);
 }

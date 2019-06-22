@@ -5,7 +5,7 @@
 int main() {
     int op;
     iTree *tree;
-    set_new_void_tree(tree);
+    tree = set_new_void_tree(tree);
     interval *v = NULL;
 
     do{
@@ -27,22 +27,60 @@ int main() {
                 }
             break;
             case 2:
-                v = (interval*) malloc(1*sizeof(interval));
-                if(v){
-                    printf("intervalo a ser excluido a = ");
-                    scanf("%d", &(v->a));
-                    printf("b = ");
-                    scanf("%d", &(v->b));
-                    tree = iTree_delete(v, tree);
-                    free(v);
-                    v = NULL;
+                if(!isEmptyTree(tree)){
+                    v = (interval*) malloc(1*sizeof(interval));
+                    if(v){
+                        printf("intervalo a ser excluido a = ");
+                        scanf("%d", &(v->a));
+                        printf("b = ");
+                        scanf("%d", &(v->b));
+                        tree = iTree_delete(v, tree);
+                        free(v);
+                        v = NULL;
+                    }
+                    else {
+                        printf("MEMORY FULL");
+                    }
                 }
-                else {
-                    printf("MEMORY FULL");
+            break;
+            case 3:
+                if(!isEmptyTree(tree)){
+                    v = (interval*) malloc(1*sizeof(interval));
+                    if(v){
+                        printf("intervalo a ser procurado a = ");
+                        scanf("%d", &(v->a));
+                        printf("b = ");
+                        scanf("%d", &(v->b));
+                        iTree_search(v, tree);
+                        free(v);
+                        v = NULL;
+                    }
+                    else {
+                        printf("MEMORY FULL");
+                    }
+                }
+            break;
+            case 4:
+                if(!isEmptyTree(tree)){
+                    v = (interval*) malloc(1*sizeof(interval));
+                    if(v){
+                        printf("intervalo a ser procurado a = ");
+                        scanf("%d", &(v->a));
+                        printf("b = ");
+                        scanf("%d", &(v->b));
+                        iTree_overlap_list(v, tree);
+                        free(v);
+                        v = NULL;
+                    }
+                    else {
+                        printf("MEMORY FULL");
+                    }
                 }
             break;
             case 5:
-                iTree_display(tree);
+                if(!isEmptyTree(tree)){
+                    iTree_display(tree);
+                }                
             break;
             default:
                 break;
