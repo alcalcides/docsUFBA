@@ -38,13 +38,9 @@ iTree* newNode(interval *v){
 }
 
 iTree* getMaior(iTree* r){
-    iTree *cursor = r;
-    while(cursor){
-        if(cursor->right != NULL){
-            cursor = cursor->right;
-        }
-    }
-    return cursor;
+    if(r == NULL) return NULL;
+    if(r->right == NULL) return r;
+    else return getMaior(r->right);
 }
 
 int iTree_height(iTree *r){
@@ -94,12 +90,10 @@ iTree* rebalance(iTree* r){
         r = iTree_rotateLeft(r);
     }
     
-    if(r->left){
-        r->max = maxH(r->max, r->left->max);
-    }
-    if(r->right){
-        r->max = maxH(r->max, r->right->max);
-    }
+    iTree *temp = getMaior(r);
+    r->max = temp->max;
+    temp = NULL;
+
     return r;
 }
 
@@ -156,12 +150,21 @@ void showContentGraphicaly(iTree* r, Queue* nodes){
     int i;
     for(i = 0; i < r->hight; i++)
         printf("\t");
-    // printf("[%d, %d], m=%d, h=%d", r->v.a, r->v.b, r->max, r->hight);
-    printf("[%d, %d]", r->v.a, r->v.b);
+    printf("[%d, %d], m=%d, h=%d", r->v.a, r->v.b, r->max, r->hight);
+    // printf("[%d, %d]", r->v.a, r->v.b);
     for(i = 0; i < r->hight; i++)
         printf("\t");
-    if(isEmptyQueue(nodes) || (r->hight != nodes->head->next->r->hight )){
+    if(nodes->qtd_nodes == 0){
         printf("\n");
+    }
+    // else{
+        if(nodes->qtd_nodes > 0 && nodes->head->next->r->hight != r->hight){
+            printf("\n");   
+        }
+    // }
+    if(r->left == NULL && r->right != NULL){
+        for(i = 0; i < r->hight; i++)
+            printf("\t");
     }
 }
 
@@ -174,11 +177,11 @@ void iTree_display (iTree *r){
         while (!isEmptyQueue(nodes)) {
             cursor = dequeue(nodes);
             showContentGraphicaly(cursor->r, nodes);
-            if(cursor->r->right){
-                enqueue(cursor->r->right, nodes);
-            }
             if(cursor->r->left){
                 enqueue(cursor->r->left, nodes);
+            }
+            if(cursor->r->right){
+                enqueue(cursor->r->right, nodes);
             }
         }        
     }
